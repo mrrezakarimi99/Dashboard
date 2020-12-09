@@ -76,7 +76,7 @@
                         <a  href="{{route('auth.google')}}" class="btn btn-danger w-50 "><i class="fab fa-google"></i>  google </a>
                     </div>
                     <div class="mb-3 d-flex justify-content-center">
-                        <a href="" class="btn btn-danger w-50"><i class="fab fa-google"></i>  google </a>
+                        <a href="{{route('auth.github')}}"  class="btn btn-secondary w-50"><i class="fab fa-github"></i>  github </a>
                     </div>
                     <div class="mb-3 d-flex justify-content-center">
                         <a href="" class="btn btn-danger w-50"><i class="fab fa-google"></i>  google </a>

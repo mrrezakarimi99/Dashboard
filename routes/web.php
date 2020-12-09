@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +18,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-Route::get('/auth/google' , 'App\Http\Controllers\Auth\GoogleAuthController@redirect')->name("auth.google");
-Route::get('/auth/google/callback' , 'App\Http\Controllers\Auth\GoogleAuthController@callback');
+Auth::routes(['verify' => true]);
+Route::get('/auth/google' , 'Auth\GoogleAuthController@redirect')->name("auth.google");
+Route::get('/auth/google/callback' , 'Auth\GoogleAuthController@callback');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/auth/github' , 'Auth\GithubAuthController@redirect')->name("auth.github");
+Route::get('/auth/github/callback' , 'Auth\GithubAuthController@callback');
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/secret' , function (){
+    return "readasdf" ;
+})->middleware([ 'auth' , 'password.confirm' ]);
+Route::middleware('auth')->group(function (){
+    Route::get("profile" , 'ProfileController@index')->name("profile.index");
+    Route::get("profile/twofactor" , 'ProfileController@managetwofactor')->name("profile.twofactor");
+    Route::post("profile/twofactor" , 'ProfileController@Postmanagetwofactor');
+
+    Route::get('profile/twofactor/phone' , 'ProfileController@getphoneVerify')->name('profile.TwoFactorPhone');
+    Route::post('profile/twofactor/phone' , 'ProfileController@postphoneVerify');
+});
+

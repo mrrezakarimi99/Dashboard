@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends  Authenticatable
+class User extends  Authenticatable implements  MustVerifyEmail
 {
     use HasFactory, Notifiable;
     protected $connection = 'mongodb';
@@ -21,6 +21,8 @@ class User extends  Authenticatable
         'email',
         'name',
         'password',
+        'phone_number',
+        'two_factor_type',
     ];
 
     /**
@@ -41,4 +43,13 @@ class User extends  Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function activeCode(){
+        return $this->hasMany(ActiveCode::class);
+    }
+
+    public function hasTwoFactor($key)
+    {
+        return $this->two_factor_type == $key;
+    }
 }

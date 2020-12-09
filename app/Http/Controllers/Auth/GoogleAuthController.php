@@ -29,7 +29,7 @@ class GoogleAuthController extends Controller
                 ]);
                 auth()->loginUsingId($newuser->id);
             }
-             return redirect('/');
+             return redirect('/home');
         }catch (\Exception $e){
             //TODO show error message
              alert()->error('login socials was not success' , 'Message')->persistent('OK');
@@ -37,4 +37,5 @@ class GoogleAuthController extends Controller
              return redirect('/login');
         }
     }
+
 }
